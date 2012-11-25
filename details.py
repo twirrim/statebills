@@ -6,7 +6,8 @@ import datetime
 import sys, os
 import urllib
 import re
-import nltk
+import html2text
+import codecs
 from git import *
 
 repo = Repo("./bills")
@@ -30,11 +31,13 @@ with open('order.csv','rb') as csvfile:
                 time.sleep(30)
                 continue
             else:
-                text = nltk.clean_html(html)
+                html = html.decode('utf-8','ignore')
+                text = html2text.html2text(html)
                 destination = "./bills/%s" % bill
-                f = open(destination,'w')
+                f = codecs.open(destination, 'w', encoding='utf-8')
                 f.write(text)
                 f.close()
+                sys.exit(0)
                 repo.git.add(bill)
                 repo.git.commit(m=row[0],date=filetime)
                 break
