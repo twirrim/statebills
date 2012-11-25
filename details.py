@@ -31,13 +31,11 @@ with open('order.csv','rb') as csvfile:
                 time.sleep(30)
                 continue
             else:
-                html = html.decode('utf-8','ignore')
-                text = html2text.html2text(html)
+                text = html2text.html2text(html.decode('utf-8','ignore'))
                 destination = "./bills/%s" % bill
                 f = codecs.open(destination, 'w', encoding='utf-8')
                 f.write(text)
                 f.close()
-                sys.exit(0)
                 repo.git.add(bill)
                 repo.git.commit(m=row[0],date=filetime)
                 break
