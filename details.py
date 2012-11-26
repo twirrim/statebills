@@ -25,7 +25,6 @@ with open('order.csv','rb') as csvfile:
             try:
                 print "Fetching url %s" % (url)
                 html = urllib.urlopen(url).read()
-                time.sleep(1)
             except:
                 print "Fetch failed, pausing then retrying"
                 time.sleep(30)
@@ -39,3 +38,4 @@ with open('order.csv','rb') as csvfile:
                 repo.git.add(bill)
                 repo.git.commit(m=row[0],date=filetime)
                 break
+repo.git.gc()
